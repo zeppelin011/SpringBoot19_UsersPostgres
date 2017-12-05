@@ -17,7 +17,8 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-
+    @Autowired
+    private UserValidator userValidator;
 
     @RequestMapping("/")
     public String index(){
@@ -41,6 +42,10 @@ public class HomeController {
 
     @PostMapping("/register")
     public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model){
+
+
+
+        userValidator.validate(user, result);
         model.addAttribute("user",user);
 
         if(result.hasErrors()){
