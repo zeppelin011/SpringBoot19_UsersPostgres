@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Table(name = "user_data")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
