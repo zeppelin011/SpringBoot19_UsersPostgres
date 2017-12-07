@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -18,6 +19,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     @Override
     public UserDetailsService userDetailsServiceBean() throws Exception {
@@ -39,8 +43,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login").permitAll()
                 .and()
-                //.exceptionHandling().accessDeniedHandler(accessDeniedHandler)
-
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                .and()
                 .httpBasic();
         http
                 .csrf().disable();
